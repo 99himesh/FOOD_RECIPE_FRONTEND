@@ -62,8 +62,6 @@ function App() {
          <Route path='recipes' element={<AdminRecipesPage/>}/>
          <Route path='recipes/:id' element={<AdminRecipeDetailsPage/>}/>
          <Route path='create-recipes' element={<AdminCreateRecipePage/>}/>
-
-
       </Route>
     </Routes>
     </>
