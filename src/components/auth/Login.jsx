@@ -24,7 +24,6 @@ const Login = () => {
     setLoginInput({...loginInput,[name]:value})
    }
   const loginHandler =async (e) => {
-    console.log("kjbjh");
     
     e.preventDefault()
        try {
@@ -34,7 +33,7 @@ const Login = () => {
         if(res.success){
           toast.success(res.message);
           if(res?.user?.role=="user"){
-            navigate("/")
+            navigate("/recipe")
           }else{
             navigate("/admin/users")
 

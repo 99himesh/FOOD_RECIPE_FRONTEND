@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../axios/axios"
-import { token } from "../constants/constants";
 const initialState = {
   isLoading:false,
   error:""
@@ -12,12 +11,12 @@ const initialState = {
 
 export const uploadMediaHandlerAsync = createAsyncThunk(
   "media/uploadMedia",
-  async ({formData}) => {    
+  async ({formData,token}) => {    
     try {
       const res = await api.post("media/image", formData,{
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization":token
+          "Authorization":`Bearer ${token}`
         }
       });      
       return res.data;

@@ -18,6 +18,7 @@ import ConfirMationToDelete from "../../common/ConfirmationToDelete";
 import CustomPagination from "../../ui/CustomPagination";
 import CustomRadio from "../../ui/CustomRadio";
 import CustomSwitch from "../../ui/CustomSwitch";
+import Cookies from "js-cookie"
 const AdminUsers = () => {
   const dispatch=useDispatch();
   const {authors,error}=useSelector(state=>state.user);
@@ -26,10 +27,11 @@ const AdminUsers = () => {
   const [confirm,setConfirm]=useState(false);
   const [deleteId,setDeleteId]=useState(null);
   const [page,setPage]=useState(1);
+  const token=Cookies.get("token");
   const updateUserRoleHandler=async(e,id)=>{
     const data={role:e}
     try {  
-    const res=await dispatch(updateUserHAndlerAsync({id,data})).unwrap();
+    const res=await dispatch(updateUserHAndlerAsync({id,data,token})).unwrap();
       if(res.success){
         toast.success(res.message);
         dispatch(updateUserHandler({id,role:e}))
@@ -43,7 +45,7 @@ const AdminUsers = () => {
 
   const deleteHandler=async()=>{
     try {
-      const res=await dispatch(deleteUserHandlerAsync({id:deleteId})).unwrap();
+      const res=await dispatch(deleteUserHandlerAsync({id:deleteId,token})).unwrap();
      if(res.success){
       toast.success(res.message);
       setConfirm(false);
@@ -61,7 +63,7 @@ const AdminUsers = () => {
     
     const data={isBlock:cheched}
      try {
-      const res=await dispatch(updateUserHAndlerAsync({id,data})).unwrap();
+      const res=await dispatch(updateUserHAndlerAsync({id,data,token})).unwrap();
       console.log(res);
       if(res.success){
         toast.success(res.message);
@@ -183,7 +185,7 @@ const AdminUsers = () => {
   const getUsers=async()=>{
     try {
       const data={search,limit:10,page:page}
-      const res=await  dispatch(getAuthorHandlerAsync({data})).unwrap();
+      const res=await  dispatch(getAuthorHandlerAsync({data,token})).unwrap();
       console.log(res);
       
       

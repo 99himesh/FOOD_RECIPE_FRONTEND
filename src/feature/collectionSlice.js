@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../axios/axios"
-import { token } from "../constants/constants";
 const initialState = {
   isLoading:false,
   error:"",
@@ -11,7 +10,7 @@ const initialState = {
 
 export const crealteCollectionAsync = createAsyncThunk(
   "collection/creatCollection",
-  async ({data}) => {
+  async ({data,token}) => {
     
     try {
       const res = await api.post("collection/add", data,{
@@ -29,7 +28,7 @@ export const crealteCollectionAsync = createAsyncThunk(
 
 export const getCollectionAsync = createAsyncThunk(
   "collection/getCollection",
-  async ({}) => {
+  async ({token}) => {
     
     try {
       const res = await api.get("collection/getCollection",{
@@ -46,7 +45,7 @@ export const getCollectionAsync = createAsyncThunk(
 );
 export const removeFromCollectionAsync = createAsyncThunk(
   "collection/removeFromCollection",
-  async ({id}) => {
+  async ({id,token}) => {
     
     try {
       const res = await api.delete(`collection/deleteCollection/${id}`,{
@@ -63,7 +62,7 @@ export const removeFromCollectionAsync = createAsyncThunk(
 );
 export const updateCollectionAsync = createAsyncThunk(
   "collection/updateCollection",
-  async ({id,data}) => {
+  async ({id,data,token}) => {
     
     try {
       const res = await api.put(`collection/updateCollection/${id}`,data,{
@@ -82,10 +81,7 @@ export const updateCollectionAsync = createAsyncThunk(
 
 export const getrecipeByCollectionIdAsync = createAsyncThunk(
   "collection/getrecipebyId",
-  async ({data}) => {
-    
-    
-    
+  async ({data,token}) => {
     try {
       const res = await api.get("collectionRecipe/getCollectionRecipe",{
         headers: {
@@ -105,8 +101,7 @@ export const getrecipeByCollectionIdAsync = createAsyncThunk(
 
 export const addToCollectionAsync = createAsyncThunk(
   "collection/addRecipe",
-  async ({data}) => {
-    
+  async ({data,token}) => {
     try {
       const res = await api.post("collectionRecipe/add", data,{
         headers: {
@@ -123,7 +118,7 @@ export const addToCollectionAsync = createAsyncThunk(
 
 export const recipeRemoveFromCollectionAsync = createAsyncThunk(
   "collection/removeRecipe",
-  async ({data,id}) => {
+  async ({data,id,token}) => {
     
     try {
       const res = await api.delete(`collectionRecipe/deleteCollectionRecipe/${id}`,{

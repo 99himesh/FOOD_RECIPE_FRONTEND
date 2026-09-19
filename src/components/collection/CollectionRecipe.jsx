@@ -4,6 +4,7 @@ import {
   Card,
   Col,
   Divider,
+  Empty,
   Input,
   Row,
   Statistic,
@@ -23,8 +24,7 @@ import { addToCollectionAsync, getrecipeByCollectionIdAsync } from "../../featur
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAllRecipe, getAllRecipeHandlerAsync } from "../../feature/recipeSlice";
 import toast from "react-hot-toast";
-
-
+import Cookies from "js-cookie";
 const { Title, Paragraph, Text } = Typography;
 
 
@@ -36,6 +36,7 @@ const CollectionRecipes = () => {
   const dispatch=useDispatch();
   const {recipeCollection}=useSelector(state=>state.collection)
   const {recipes}=useSelector(state=>state.recipe);
+  const token=Cookies.get("token")
   console.log(recipes,"recipe");
   
 console.log(recipeCollection.recipeByCollection);
@@ -45,7 +46,7 @@ console.log(recipeCollection.recipeByCollection);
    const getRecipeCollectionHandler=async()=>{
         const data={CollectionId:id}
         try {
-          const res=await dispatch(getrecipeByCollectionIdAsync({data})).unwrap();
+          const res=await dispatch(getrecipeByCollectionIdAsync({data,token})).unwrap();
           console.log(res); 
         } catch (error) {
           console.log(error);
@@ -59,7 +60,7 @@ console.log(recipeCollection.recipeByCollection);
     const getRecipeHandler=async()=>{
       const data={search:search}
       try {
-        const res=await dispatch(getAllRecipeHandlerAsync({data})).unwrap();
+        const res=await dispatch(getAllRecipeHandlerAsync({data,token})).unwrap();
       } catch (error) {
         console.log(error);
         
@@ -70,7 +71,7 @@ console.log(recipeCollection.recipeByCollection);
       console.log(id);
       const data={CollectionId:recipeCollection?.collection?.id,RecipeId:id}
        try {
-        const res=await dispatch(addToCollectionAsync({data})).unwrap();
+        const res=await dispatch(addToCollectionAsync({data,token})).unwrap();
         if(res?.success){
           toast.success(res.message);
           dispatch(deleteAllRecipe())
@@ -183,9 +184,8 @@ console.log(recipeCollection.recipeByCollection);
         </Row>
 
         {/* Recipes */}
-
+         {recipeCollection?.recipeByCollection.length==0 && <Empty/>}
         <Row gutter={[24, 24]}>
-
           {recipeCollection?.recipeByCollection?.map((item) => (
             <Col
               xs={24}

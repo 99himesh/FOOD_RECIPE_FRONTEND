@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../axios/axios"
-import { token } from "../constants/constants";
 const initialState = {
   isLoading:false,
   error:"",
@@ -11,7 +10,7 @@ const initialState = {
 
 export const notificationHandlerAsync = createAsyncThunk(
   "notification/getNotificationAsync",
-  async ({}) => {
+  async ({token}) => {
     try {
       const res = await api.get("notifications/getNotification",{
         headers: {
@@ -27,7 +26,7 @@ export const notificationHandlerAsync = createAsyncThunk(
 );
 export const notificationCountHandlerAsync = createAsyncThunk(
   "notification/getNotificationCountAsync",
-  async ({}) => {
+  async ({token}) => {
     try {
       const res = await api.get("notifications/getCountNotification",{
         headers: {
@@ -44,7 +43,7 @@ export const notificationCountHandlerAsync = createAsyncThunk(
 
 export const deleteNotificationHandlerAsync = createAsyncThunk(
   "notification/deleteNotificationAsync",
-  async ({id}) => {
+  async ({id,token}) => {
     try {
       const res = await api.delete(`notifications/deleteNotification/${id}`,{
         headers: {
@@ -60,7 +59,7 @@ export const deleteNotificationHandlerAsync = createAsyncThunk(
 );
 export const deleteAllNotificationHandlerAsync = createAsyncThunk(
   "notification/deleteAllNotificationAsync",
-  async ({}) => {
+  async ({token}) => {
     try {
       const res = await api.delete(`notifications/deleteAllNotification`,{
         headers: {

@@ -25,12 +25,13 @@ import { useEffect, useState } from "react";
 import CustomSelect from "../../ui/CustomSelect";
 import {useLocation, useNavigate} from "react-router-dom"
 import { createRecipeHandlerAsync, updateRecipeHandlerAsync } from "../../../feature/recipeSlice";
+import Cookies from "js-cookie";
 const { Title } = Typography;
-
 const AdminCreateRecipe = ({isEdit}) => {
     const dispatch=useDispatch();
     const location = useLocation();
-    const navigate=useNavigate()
+    const navigate=useNavigate();
+    const token=Cookies.get("token");
     const [recipeInput,setRecipeInput]=useState({     
                 title: "",
                 description: "",
@@ -39,67 +40,46 @@ const AdminCreateRecipe = ({isEdit}) => {
                 servings: null,
                 dietType: "",
                 image: "",
-         });
-         console.log(recipeInput.id);
-         
+         });         
 
    const recipeInputHandler=(e)=>{    
     const {name,value}=e.target;
     if(name=="servings" || name=="cookingTime"){
-      setRecipeInput({...recipeInput,[name]:Number(value)})    
-         
+      setRecipeInput({...recipeInput,[name]:Number(value)})      
     }else{
       setRecipeInput({...recipeInput,[name]:value})    
-
     }
-    
    }
     const mediaUploadHandler=async(e)=>{
-
         const formData=new FormData();
         formData.append("file",e.file)
         const form={file:e.file}
         try {
-            const res=await dispatch(uploadMediaHandlerAsync({formData})).unwrap();
+            const res=await dispatch(uploadMediaHandlerAsync({formData,token})).unwrap();
             console.log(res);
             if(res.success){
                 toast.success(res.message);
                 setRecipeInput({...recipeInput,image:res?.url})
-
             }
-            
-            
         } catch (error) {
-            
+           console.log(error);
         }
-        
     }
 
-
-
-
-
     const recipiSubmitHandler=async()=>{
-        
-
         try {
             const data={...recipeInput}
             let res;
             if(!location?.state?.isEdit){
-             res=await dispatch(createRecipeHandlerAsync({data})).unwrap();
-           
-
+             res=await dispatch(createRecipeHandlerAsync({data,token})).unwrap();
             }else{
-                res=await dispatch(updateRecipeHandlerAsync({data,id:recipeInput?.id})).unwrap();
-            
+                res=await dispatch(updateRecipeHandlerAsync({data,id:recipeInput?.id,token})).unwrap();
             }
              if(res.success){
                 toast.success(res.message);
                 navigate("/admin/recipes")
-            }
-            
-            
-        } catch (error) {
+             }  
+         } catch (error) {
             console.log(error);
             
         }

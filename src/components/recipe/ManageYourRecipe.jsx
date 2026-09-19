@@ -20,13 +20,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import CustomPagination from "../ui/CustomPagination";
 const { Title, Paragraph } = Typography;
-
 const ManageYourRecipe = () => {
   const[page,setPage]=useState(1);
   const navigate = useNavigate();
   const dispatch=useDispatch();
   const {recipesByUser}=useSelector(state=>state.recipe);
-  console.log(recipesByUser,"dds");
+  const token=Cookies.get("token")
   
   const [search, setSearch] = useState("");
   const userId=Cookies.get("userId")
@@ -35,7 +34,7 @@ const ManageYourRecipe = () => {
     const manageRecipeHandler=async()=>{
     const data={limit:12,page:page}
     try {
-      const res=await dispatch(getRecipeByUserIdHandlerAsync({id:userId,data})).unwrap();
+      const res=await dispatch(getRecipeByUserIdHandlerAsync({id:userId,data,token})).unwrap();
           
       
     } catch (error) {
@@ -114,7 +113,7 @@ const ManageYourRecipe = () => {
            
           </Empty>
         )}
-        <div>
+        <div >
           <CustomPagination onchange={(e)=>{setPage(e)}}  pageNumber={page} total={recipesByUser?.recipeCount}/>
         </div>
 

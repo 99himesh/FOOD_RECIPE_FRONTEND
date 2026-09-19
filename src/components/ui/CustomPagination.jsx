@@ -14,7 +14,7 @@ const CustomPagination=({onchange,total,pageNumber})=>{
     return(
     <>
       {total>12 &&  <div  className="flex justify-center items-center w-[90%] mx-auto pt-5">
-        <Pagination showSizeChanger={false} onChange={onchange} defaultCurrent={pageNumber} total={total} itemRender={itemRender} />
+        <Pagination pageSize={12} showSizeChanger={false} onChange={onchange} defaultCurrent={pageNumber} total={total} itemRender={itemRender} />
         </div>}
         </>
     )

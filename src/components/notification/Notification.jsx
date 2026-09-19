@@ -51,10 +51,8 @@ const notifications = [
 const Notification = () => { 
   const dispatch=useDispatch()
   const {notification}=useSelector(state=>state.notification);
-  console.log(notification,"notification");
+  const token=Cookies.get("token"); 
   
-    const token=Cookies.get("token");
-    console.log(token);
     
     const socket = useMemo(() => io("http://localhost:3000", {
         auth:{
@@ -82,7 +80,7 @@ const Notification = () => {
 
   const getNotificationHandler=async()=>{
         try {
-          const res=await dispatch(notificationHandlerAsync({})).unwrap();
+          const res=await dispatch(notificationHandlerAsync({token})).unwrap();
               
           
         } catch (error) {
@@ -95,7 +93,7 @@ const Notification = () => {
       console.log(id);
       
       try {
-        const res=await dispatch(deleteNotificationHandlerAsync({id:id})).unwrap();
+        const res=await dispatch(deleteNotificationHandlerAsync({id:id,token})).unwrap();
         if(res.success){
           dispatch(deleteNotification(id))
         toast.success(res.message);
@@ -110,7 +108,7 @@ const Notification = () => {
     const deleteAllNotificationHandler=async()=>{
       
       try {
-        const res=await dispatch(deleteAllNotificationHandlerAsync({})).unwrap();
+        const res=await dispatch(deleteAllNotificationHandlerAsync({token})).unwrap();
         if(res.success){
           toast.success(res.message);
 

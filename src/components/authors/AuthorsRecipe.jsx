@@ -21,7 +21,7 @@ import { getRecipeByUserIdHandlerAsync } from "../../feature/recipeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import CustomPagination from "../ui/CustomPagination";
-
+import Cookies from "js-cookie"
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -33,20 +33,14 @@ const AuthorRecipes = () => {
   const [search, setSearch] = useState("");
   const dispatch=useDispatch();
   const {recipesByUser}=useSelector(state=>state.recipe);
+  const token=Cookies.get("token")
   const {id}=useParams();
-
-console.log(recipesByUser,"recipes");
-
-
     const getRecipeByUserIdHandler=async()=>{
         const data={page,limit:12,search}
         try {
-          const res=await dispatch(getRecipeByUserIdHandlerAsync({id,data})).unwrap();
-              
-          
+          const res=await dispatch(getRecipeByUserIdHandlerAsync({id,data,token})).unwrap();
         } catch (error) {
           console.log(error);
-          
         }
       }
     

@@ -6,15 +6,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie"
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { logoutHandler } from "../../feature/userSlice";
 const { Title, Text } = Typography;
 
 const ProfileDropDown = ({ user }) => {
+  const dispatch=useDispatch()
     const navigate=useNavigate();
-    const logoutHandler=()=>{
-      Cookies.remove("token");
-      Cookies.remove("role");
+    const logoutUserHandler=()=>{
+      dispatch(logoutHandler())
       toast.success("Logout successfully")
-
+      
       navigate("/login")
     }
 
@@ -56,7 +58,7 @@ const ProfileDropDown = ({ user }) => {
       </Button> */}
 
       <Button
-      onClick={()=>{logoutHandler()}}
+      onClick={()=>{logoutUserHandler()}}
         block
         danger
         size="large"

@@ -3,7 +3,6 @@ import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import CustomText from "../../ui/CustomText";
 import CustomTable from "../../ui/CustomTable";
 import {useDispatch, useSelector} from "react-redux"
-import { getAuthorHandlerAsync } from "../../../feature/userSlice";
 import { useEffect } from "react";
 import { FaEye, FaPencilAlt, FaPlusCircle } from "react-icons/fa";
 import { formatDate } from "../../../constants/dateConverter";
@@ -17,6 +16,7 @@ import { MdDelete } from "react-icons/md";
 import {toast} from "react-hot-toast"
 import CustomModal from "../../ui/CustomModal";
 import ConfirMationToDelete from "../../common/ConfirmationToDelete";
+import Cookies from "js-cookie";
 const AdminRecipe = () => {
   const [page,setPage]=useState(1);
   const [search,setSearch]=useState("")
@@ -24,10 +24,11 @@ const AdminRecipe = () => {
   const {recipes}=useSelector(state=>state.recipe);  
   const navigate=useNavigate();
   const [confirm,setConfirm]=useState(false)
-  const [deleteId,setDeleteId]=useState(null)
+  const [deleteId,setDeleteId]=useState(null);
+  const token=Cookies.get("token")
   const adminRecipeDeleteHandler=async()=>{
     try {
-      const res=await dispatch(deleteRecipeHandlerAsync({id:deleteId})).unwrap();
+      const res=await dispatch(deleteRecipeHandlerAsync({id:deleteId,token})).unwrap();
       if(res?.success){
         toast.success(res?.message);
         dispatch(deleteRecipeHandler(deleteId));
@@ -138,7 +139,7 @@ const AdminRecipe = () => {
   const getAllRecipeHandler=async()=>{
     try {
       const data={page:page,limit:10,search}
-      const res=await  dispatch(getAllRecipeHandlerAsync({data})).unwrap();
+      const res=await  dispatch(getAllRecipeHandlerAsync({data,token})).unwrap();
       console.log(res);
       
       

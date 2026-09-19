@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../axios/axios"
-import { token } from "../constants/constants";
 const initialState = {
   isLoading:false,
   error:"",
@@ -9,7 +8,7 @@ const initialState = {
 
 export const addRateAndReviewAsync = createAsyncThunk(
   "rate/addRateReview",
-  async ({data}) => {
+  async ({data,token}) => {
     try {
       const res = await api.post("rateReview/add",data,{
         headers: {

@@ -20,23 +20,19 @@ import { getAuthorByIdHandlerAsync } from "../../../feature/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../../constants/dateConverter";
 import { FaArrowCircleLeft } from "react-icons/fa";
-
+import Cookies from "js-cookie";
 const AdminUserDetails = ({ user }) => {
     const {id}=useParams();
     const dispatch=useDispatch();
     const {authorsById}=useSelector(state=>state.user);
     const navigate=useNavigate();
-    console.log(authorsById);
-    
+    const token=Cookies.get("token");
+
     const getUsersById=async()=>{
         try {
-          const res=await  dispatch(getAuthorByIdHandlerAsync({id})).unwrap();
-          console.log(res);
-          
-          
+          const res=await  dispatch(getAuthorByIdHandlerAsync({id,token})).unwrap();
         } catch (error) {
           console.log(error);
-          
         }
       }
     

@@ -17,7 +17,7 @@ import { getAllRecipeHandlerAsync } from "../../feature/recipeSlice.js";
 import toast from "react-hot-toast";
 import CustomPagination from "../ui/CustomPagination.jsx";
 import CustomMultipleFilter from "../ui/CustumMultipleFilter.jsx";
-
+import Cookies from "js-cookie";
 const { Title, Paragraph } = Typography;
 
 const Recipe = () => {
@@ -27,6 +27,7 @@ const Recipe = () => {
    const dispatch=useDispatch();
    const [filter,setFilter]=useState("")
    const {recipes}=useSelector(state=>state.recipe);
+   const token=Cookies.get("token")
    console.log(recipes,"recipes");
    
   // Dummy data (Replace with API)
@@ -39,7 +40,7 @@ console.log(filter,"jhvhgf");
   const getRecipeHandler=async()=>{
     const data={page,limit:12,search,filter:filter[0]}
     try {
-      const res=await dispatch(getAllRecipeHandlerAsync({data})).unwrap();
+      const res=await dispatch(getAllRecipeHandlerAsync({data,token})).unwrap();
           
       
     } catch (error) {

@@ -25,11 +25,12 @@ import CustomSelect from "../ui/CustomSelect";
 import {  createRecipeHandlerAsync, updateRecipeHandlerAsync } from "../../feature/recipeSlice";
 import {useLocation, useNavigate} from "react-router-dom"
 const { Title } = Typography;
-
+import Cookies from "js-cookie";
 const CreateRecipe = ({isEdit}) => {
     const dispatch=useDispatch();
     const location = useLocation();
     const navigate=useNavigate()
+    const token=Cookies.get("token");
     const [recipeInput,setRecipeInput]=useState({     
                 title: "",
                 description: "",
@@ -38,9 +39,7 @@ const CreateRecipe = ({isEdit}) => {
                 servings: null,
                 dietType: "Vegetarian",
                 image: "",
-         });
-         console.log(recipeInput.id);
-         
+         });         
 
    const recipeInputHandler=(e)=>{    
     const {name,value}=e.target;
@@ -59,7 +58,7 @@ const CreateRecipe = ({isEdit}) => {
         formData.append("file",e.file)
         const form={file:e.file}
         try {
-            const res=await dispatch(uploadMediaHandlerAsync({formData})).unwrap();
+            const res=await dispatch(uploadMediaHandlerAsync({formData,token})).unwrap();
             console.log(res);
             if(res.success){
                 toast.success(res.message);
@@ -85,11 +84,11 @@ const CreateRecipe = ({isEdit}) => {
             const data={...recipeInput}
             let res;
             if(!location?.state?.isEdit){
-             res=await dispatch(createRecipeHandlerAsync({data})).unwrap();
+             res=await dispatch(createRecipeHandlerAsync({data,token})).unwrap();
            
 
             }else{
-                res=await dispatch(updateRecipeHandlerAsync({data,id:recipeInput?.id})).unwrap();
+                res=await dispatch(updateRecipeHandlerAsync({data,id:recipeInput?.id,token})).unwrap();
             
             }
              if(res.success){

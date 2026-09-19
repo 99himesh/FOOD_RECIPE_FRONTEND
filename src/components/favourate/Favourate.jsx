@@ -16,20 +16,20 @@ import {
 import RecipeCard from "../common/RecipeCard";
 import { getFavourateHandlerAsync } from "../../feature/favourateSlice";
 import { useDispatch, useSelector } from "react-redux";
-
-
+import Cookies from "js-cookie";
 const { Title, Paragraph } = Typography;
 
 
 const Favourite = () => {
   const [search, setSearch] = useState("");
   const dispatch=useDispatch();
-  const {favourate}=useSelector(state=>state.favourate)
+  const {favourate}=useSelector(state=>state.favourate);
+  const token=Cookies.get("token");
 console.log(favourate);
 
     const getFavourateHandler=async()=>{
         try {
-          const res=await dispatch(getFavourateHandlerAsync({})).unwrap();
+          const res=await dispatch(getFavourateHandlerAsync({token})).unwrap();
               
           
         } catch (error) {

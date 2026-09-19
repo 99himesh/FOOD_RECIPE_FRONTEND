@@ -29,7 +29,7 @@ import { useEffect } from "react";
 import CustomInput from "../ui/CustomInput";
 import RecipeRate from "./RecipeRate";
 import Review from "./Review";
-
+import Cookies from "js-cookie";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -37,12 +37,12 @@ const RecipeDetail = () => {
   const {id}=useParams();
   const dispatch=useDispatch();
   const {recipe}=useSelector(state=>state.recipe)
-  console.log(recipe);
+  const token=Cookies.get("token");
   
 
   const getRecipeByIdHandler=async()=>{
       try {
-        const res=await dispatch(getRecipeByIdHandlerAsync({id})).unwrap();
+        const res=await dispatch(getRecipeByIdHandlerAsync({id,token})).unwrap();
             
         
       } catch (error) {

@@ -6,19 +6,18 @@ import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import {  crealteCollectionAsync, editCollectionHandler, updateCollectionAsync } from "../../feature/collectionSlice";
 import CustomInput from "../ui/CustomInput";
-
+import Cookies from "js-cookie";
 const { Title } = Typography;
 
 const CreateCollection = ({setCollectionModel,collectionInput,setCollectionInput,isEdit,getCollectionHandler}) => {
-  console.log(collectionInput,"collectionInput");
-  
+  const token=Cookies.get("token")
   const dispatch=useDispatch();
   const imageUploadHandler=async(e)=>{
      const formData=new FormData();
         formData.append("file",e.file)
         const form={file:e.file}
         try {
-            const res=await dispatch(uploadMediaHandlerAsync({formData})).unwrap();
+            const res=await dispatch(uploadMediaHandlerAsync({formData,token})).unwrap();
             console.log(res);
             if(res.success){
                 toast.success(res.message);
@@ -38,13 +37,13 @@ const CreateCollection = ({setCollectionModel,collectionInput,setCollectionInput
         try {
           let res;
           if(!isEdit){
-           res=await dispatch(crealteCollectionAsync({data})).unwrap();
+           res=await dispatch(crealteCollectionAsync({data,token})).unwrap();
            if(res.success){
             // dispatch(createCollectionImmidiateHandler(collectionInput))
             getCollectionHandler()
            }
           }else{
-           res=await dispatch(updateCollectionAsync({data,id:collectionInput?.id})).unwrap();
+           res=await dispatch(updateCollectionAsync({data,id:collectionInput?.id,token})).unwrap();
            if(res.success){
             dispatch(editCollectionHandler({id:collectionInput?.id,data:collectionInput}))
             

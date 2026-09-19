@@ -38,9 +38,7 @@ const Header =()=>{
                 {/*  center navigation */}
                 <div className="hidden xl:flex space-x-10 md:order-2 *:text-[#fff] *:text-[16px] *:hover:!bg-[#FF7A4D] *:px-3 *:py-1 *:rounded-full *:hover:text-[#fff]">
                      
-                    <Link   to={"/"}>
-                        Home
-                    </Link>
+                   
                     <Link   to={"/recipe"}>
                         Recipe
                     </Link>
@@ -87,9 +85,7 @@ const Header =()=>{
                 <div className="p-4">
                     <h2 className="text-xl font-semibold mb-4 ">Menu</h2>
                     <nav className="flex flex-col space-y-4 *:text-gray-600 *:hover:text-black">
-                         <Link   to={"/"}>
-                        Home
-                    </Link>
+                         
                            <Link   to={"/"}>
                         Recipe
                     </Link>

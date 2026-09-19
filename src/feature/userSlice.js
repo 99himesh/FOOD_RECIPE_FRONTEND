@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../axios/axios"
-import Cookies from "js-cookie"
-import { token } from "../constants/constants";
+import Cookies from "js-cookie";
+const token=Cookies.get("token")
 const initialState = {
   token:token || null,
   isLoading:false,
@@ -49,7 +49,7 @@ export const loginHandlerAsync = createAsyncThunk(
 
 export const getAuthorHandlerAsync = createAsyncThunk(
   "user/getAuthors",
-  async ({data}) => {    
+  async ({data,token}) => {    
     try {
       const res = await api.get("user/getUsers",{
         headers: {
@@ -72,7 +72,7 @@ export const getAuthorHandlerAsync = createAsyncThunk(
 
 export const followUserHandlerAsync = createAsyncThunk(
   "user/follow",
-  async ({data}) => {    
+  async ({data,token}) => {    
     try {
       const res = await api.post("followers/follow", data,{
         headers: {
@@ -89,7 +89,7 @@ export const followUserHandlerAsync = createAsyncThunk(
 );
 export const UnfollowUserHandlerAsync = createAsyncThunk(
   "user/unfollow",
-  async ({id}) => {    
+  async ({id,token}) => {    
     try {
       const res = await api.delete(`followers/unfollow/${id}`,{
         headers: {
@@ -109,7 +109,7 @@ export const UnfollowUserHandlerAsync = createAsyncThunk(
 
 export const getAuthorByIdHandlerAsync = createAsyncThunk(
   "user/getAuthorsById",
-  async ({id}) => {    
+  async ({id,token}) => {    
     try {
       const res = await api.get(`/user/getuser/${id}`,{
         headers: {
@@ -127,7 +127,7 @@ export const getAuthorByIdHandlerAsync = createAsyncThunk(
 
 export const updateUserHAndlerAsync = createAsyncThunk(
   "user/updateUser",
-  async ({id,data}) => {    
+  async ({id,data,token}) => {    
     try {
       const res = await api.put(`/user/updateUser/${id}`,data,{
         headers: {
@@ -145,7 +145,7 @@ export const updateUserHAndlerAsync = createAsyncThunk(
 
 export const deleteUserHandlerAsync = createAsyncThunk(
   "user/deleteUser",
-  async ({id}) => {    
+  async ({id,token}) => {    
     try {
       const res = await api.delete(`/user/deleteUser/${id}`,{
         headers: {
@@ -187,9 +187,13 @@ export const userSlice = createSlice({
     },
     blockedHandler:(state,action)=>{
        const findIndex=state.authors?.result?.findIndex(item=>item.id==action.payload.id);
-      
        state.authors.result[findIndex].isBlock=action.payload?.isBlock
 
+    },
+    logoutHandler:(state,action)=>{
+      Cookies.remove("token");
+      Cookies.remove("role");
+      state.token=null;
     }
 
 
@@ -307,5 +311,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const {followUserHandler,unFollowUserHandler,updateUserHandler,deleteUserHandler,blockedHandler}=userSlice.actions;
+export const {logoutHandler,followUserHandler,unFollowUserHandler,updateUserHandler,deleteUserHandler,blockedHandler}=userSlice.actions;
 export default userSlice.reducer;

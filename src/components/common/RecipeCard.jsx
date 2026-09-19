@@ -18,22 +18,22 @@ import { MdFavoriteBorder, MdOutlineFavorite } from "react-icons/md";
 import { addToFavourateHandlerAsync, removeFromFavourate, removeFromFavourateHandlerAsync } from "../../feature/favourateSlice";
 import { collectionRecipeFavourate, deleteFromCollection, recipeRemoveFromCollectionAsync } from "../../feature/collectionSlice";
 const { Title, Paragraph, Text } = Typography;
-
+import Cookies from "js-cookie";
 const RecipeCard=({recipe,manageRecipe,collection,recipePage})=>{  
   const navigate=useNavigate();
   const dispatch=useDispatch();
   const [confirm,setConfirm]=useState(false)
-
+ const token=Cookies.get("token");
 
   const recipeDeleteHandler=async()=>{
      try {
            let res;
            if(manageRecipe){
-            res=await dispatch(deleteRecipeHandlerAsync({id:recipe.id})).unwrap();
+            res=await dispatch(deleteRecipeHandlerAsync({id:recipe.id,token})).unwrap();
 
            }else{
             const data={RecipeId:recipe.id}
-            res=await dispatch(recipeRemoveFromCollectionAsync({id:collection,data})).unwrap();
+            res=await dispatch(recipeRemoveFromCollectionAsync({id:collection,data,token})).unwrap();
             dispatch(deleteFromCollection(recipe.id))
            }
           if(res.success){
@@ -41,14 +41,9 @@ const RecipeCard=({recipe,manageRecipe,collection,recipePage})=>{
             dispatch(deleteUserRecipeHandler(recipe.id))
             setConfirm(false)
           }
-          
-      
-      
      } catch (error) {
        console.log(error);
-       
      }
-    
   }
 
   const favourateHandler=async()=>{
@@ -56,7 +51,7 @@ const RecipeCard=({recipe,manageRecipe,collection,recipePage})=>{
       const data={recipeId:recipe?.id}
 
       if(!recipe?.isFavourate ){
-         const res=await dispatch(addToFavourateHandlerAsync({data})).unwrap();
+         const res=await dispatch(addToFavourateHandlerAsync({data,token})).unwrap();
          if(res.success){
           toast.success(res.message);
          if(recipePage=="browse"){
@@ -73,7 +68,7 @@ const RecipeCard=({recipe,manageRecipe,collection,recipePage})=>{
          }
          }
       }else{
-        const res=await dispatch(removeFromFavourateHandlerAsync({id:recipe?.id})).unwrap();
+        const res=await dispatch(removeFromFavourateHandlerAsync({id:recipe?.id,token})).unwrap();
          if(res.success){
           toast.success(res.message);
          if(recipePage=="browse"){

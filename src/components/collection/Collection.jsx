@@ -20,9 +20,8 @@ import CustomModal from "../ui/CustomModal";
 import CreateCollection from "./CreateCollection";
 import { useDispatch, useSelector } from "react-redux";
 import { getCollectionAsync } from "../../feature/collectionSlice";
-import { getAllRecipeHandlerAsync } from "../../feature/recipeSlice";
 import CustomText from "../ui/CustomText";
-
+import Cookies from "js-cookie";
 
 const { Title, Paragraph } = Typography;
 
@@ -30,8 +29,7 @@ const { Title, Paragraph } = Typography;
 
 const Collection = () => {
   const [search, setSearch] = useState("");
-  console.log(search);
-  
+  const token=Cookies.get("token");
   const [collectionModel,setCollectionModel]=useState(false);
   const [isEdit,setIsEdit]=useState(false)
   const [collectionInput,setCollectionInput]=useState({
@@ -46,21 +44,14 @@ const Collection = () => {
   const getCollectionHandler=async()=>{
       const data={}
       try {
-        const res=await dispatch(getCollectionAsync({})).unwrap();
-        console.log(res);
-        
-            
-        
+        const res=await dispatch(getCollectionAsync({token})).unwrap(); 
       } catch (error) {
         console.log(error);
-        
       }
     }
 
    const editCollectionData=(data)=>{
-    console.log(data.collectionName,"djkfbhjks");
     setIsEdit(true)
-    
     setCollectionInput({...data})
   }  
 

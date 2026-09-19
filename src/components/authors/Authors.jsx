@@ -18,7 +18,7 @@ import AuthorCard from "../common/AuthorsCard";
 import { getAuthorHandlerAsync } from "../../feature/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CustomPagination from "../ui/CustomPagination";
-
+import Cookies from "js-cookie"
 const { Title, Paragraph } = Typography;
 
 
@@ -27,14 +27,18 @@ const Authors = () => {
   const [page,setPage]=useState();
   const dispatch=useDispatch();
   const {authors}=useSelector(state=>state.user) 
-  
+  const token=Cookies.get("token");
 
   
 
   const getRecipeHandler=async()=>{
-      const data={page:page,limit:12,search:search}
+      const data = {
+        page: page,
+        limit: 12,
+        ...(search && { search: search })
+        };
       try {
-        const res=await dispatch(getAuthorHandlerAsync({data})).unwrap();
+        const res=await dispatch(getAuthorHandlerAsync({data,token})).unwrap();
             
         
       } catch (error) {

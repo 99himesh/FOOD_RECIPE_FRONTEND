@@ -12,18 +12,20 @@ import { deleteCollectionHandler, removeFromCollectionAsync } from "../../featur
 import toast from "react-hot-toast";
 import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
 const { Title, Text } = Typography;
 
 const CollectionCard = ({ collection,setCollectionModel ,editCollectionData}) => {
   const [collectionConfirm,setCollectionConfirm]=useState(false);
   const dispatch=useDispatch()
   const navigate=useNavigate()
+  const token=Cookies.get("token");
+
   console.log(collection,"coll");
   
   const collectionDeleteHandler=async()=>{
    try {
-     const res=await dispatch(removeFromCollectionAsync({id:collection.id})).unwrap();
+     const res=await dispatch(removeFromCollectionAsync({id:collection.id,token})).unwrap();
      console.log(res);
      if(res.success){
       setCollectionConfirm(false)
@@ -33,6 +35,7 @@ const CollectionCard = ({ collection,setCollectionModel ,editCollectionData}) =>
      
     
    } catch (error) {
+    console.log(error);
     
    }
     

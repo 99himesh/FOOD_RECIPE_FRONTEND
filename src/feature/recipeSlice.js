@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../axios/axios"
-import { token } from "../constants/constants";
-console.log(token,"token");
+
 
 const initialState = {
   isLoading:false,
@@ -9,13 +8,14 @@ const initialState = {
   recipes:[],
   recipe:{},
   recipesByUser:[]
- 
 };
 
 
 export const getAllRecipeHandlerAsync = createAsyncThunk(
   "recipe/getAllRecipe",
-  async ({data}) => {
+  async ({data,token}) => {
+    console.log(token);
+    
     try {
       const res = await api.get("recipe/getAllrecipe",{
         headers: {
@@ -25,7 +25,6 @@ export const getAllRecipeHandlerAsync = createAsyncThunk(
         params:{
             ...data
         }
-    
       });      
       return res.data;
     } catch (error) {
@@ -35,7 +34,7 @@ export const getAllRecipeHandlerAsync = createAsyncThunk(
 );
 export const getRecipeByUserIdHandlerAsync = createAsyncThunk(
   "recipe/getRecipeByUserId",
-  async ({data,id}) => {
+  async ({data,id,token}) => {
     try {
       const res = await api.get(`recipe/getRecipeByUserId/${id}`,{
         headers: {
@@ -55,7 +54,7 @@ export const getRecipeByUserIdHandlerAsync = createAsyncThunk(
 );
 export const getRecipeByIdHandlerAsync = createAsyncThunk(
   "recipe/getRecipeById",
-  async ({id}) => {
+  async ({id,token}) => {
     try {
       const res = await api.get(`recipe/getRecipe/${id}`,{
         headers: {
@@ -73,7 +72,7 @@ export const getRecipeByIdHandlerAsync = createAsyncThunk(
 
 export const createRecipeHandlerAsync = createAsyncThunk(
   "recipe/createRecipe",
-  async ({data}) => {
+  async ({data,token}) => {
     try {
       const res = await api.post(`recipe/add`,data,{
         headers: {
@@ -94,7 +93,7 @@ export const createRecipeHandlerAsync = createAsyncThunk(
 
 export const updateRecipeHandlerAsync = createAsyncThunk(
   "recipe/updateRecipe",
-  async ({data,id}) => {
+  async ({data,id,token}) => {
     try {
       const res = await api.put(`recipe/updateRecipe/${id}`,data,{
         headers: {
@@ -105,8 +104,6 @@ export const updateRecipeHandlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error);
-      
       throw error;
     }
   }
@@ -114,7 +111,7 @@ export const updateRecipeHandlerAsync = createAsyncThunk(
 
 export const deleteRecipeHandlerAsync = createAsyncThunk(
   "recipe/deleteRecipe",
-  async ({id}) => {
+  async ({id,token}) => {
     try {
       const res = await api.delete(`recipe/deleteRecipe/${id}`,{
         headers: {
@@ -125,8 +122,6 @@ export const deleteRecipeHandlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error);
-      
       throw error;
     }
   }

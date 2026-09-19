@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../axios/axios"
-import { token } from "../constants/constants";
 const initialState = {
   isLoading:false,
   error:"",
@@ -10,7 +9,7 @@ const initialState = {
 
 export const addToFavourateHandlerAsync = createAsyncThunk(
   "favourate/addToFavourate",
-  async ({data}) => {
+  async ({data,token}) => {
     
     try {
       const res = await api.post("favourate/add", data,{
@@ -28,7 +27,7 @@ export const addToFavourateHandlerAsync = createAsyncThunk(
 
 export const getFavourateHandlerAsync = createAsyncThunk(
   "favourate/getFavourate",
-  async ({}) => {
+  async ({token}) => {
     
     try {
       const res = await api.get("favourate/getFavourate",{
@@ -45,7 +44,7 @@ export const getFavourateHandlerAsync = createAsyncThunk(
 );
 export const removeFromFavourateHandlerAsync = createAsyncThunk(
   "favourate/removeFromFavourate",
-  async ({id}) => {
+  async ({id,token}) => {
     
     try {
       const res = await api.delete(`favourate/deleteFavourate/${id}`,{
@@ -113,12 +112,6 @@ export const favourateSlice = createSlice({
       state.isLoading = false;
       state.error = action.error.message;
     });
-    
-        
-    
-   
-   
-   
   },
 });
 export const {removeFromFavourate}=favourateSlice.actions;
