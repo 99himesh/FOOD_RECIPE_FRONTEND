@@ -20,7 +20,6 @@ const RecipeRate = ({id,getRecipeByIdHandler,recipe}) => {
     }
      try {
         const res=await dispatch(addRateAndReviewAsync({data,token})).unwrap();
-        console.log(res);
         if(res.success){
             toast.success(res.message);
             getRecipeByIdHandler(id);
@@ -30,7 +29,7 @@ const RecipeRate = ({id,getRecipeByIdHandler,recipe}) => {
             });
         }
      } catch (error) {
-        console.log(error); 
+        toast.error(error.message);
      }
   };
 

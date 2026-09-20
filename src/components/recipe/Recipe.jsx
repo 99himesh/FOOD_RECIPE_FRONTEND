@@ -28,15 +28,7 @@ const Recipe = () => {
    const [filter,setFilter]=useState("")
    const {recipes}=useSelector(state=>state.recipe);
    const token=Cookies.get("token")
-   console.log(recipes,"recipes");
-   
   // Dummy data (Replace with API)
-
-
-
-
-console.log(filter,"jhvhgf");
-
   const getRecipeHandler=async()=>{
     const data={page,limit:12,search,filter:filter[0]}
     try {
@@ -44,7 +36,7 @@ console.log(filter,"jhvhgf");
           
       
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
       
     }
   }

@@ -40,7 +40,7 @@ const AuthorRecipes = () => {
         try {
           const res=await dispatch(getRecipeByUserIdHandlerAsync({id,data,token})).unwrap();
         } catch (error) {
-          console.log(error);
+         toast.error(error.message);
         }
       }
     

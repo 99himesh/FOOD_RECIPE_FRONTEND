@@ -18,16 +18,12 @@ const CreateCollection = ({setCollectionModel,collectionInput,setCollectionInput
         const form={file:e.file}
         try {
             const res=await dispatch(uploadMediaHandlerAsync({formData,token})).unwrap();
-            console.log(res);
             if(res.success){
                 toast.success(res.message);
                 setCollectionInput({...collectionInput,image:res?.url})
-
-            }
-            
-            
+            }   
         } catch (error) {
-            console.log(error);
+          toast.error(error.message);
             
         }
     
@@ -52,12 +48,10 @@ const CreateCollection = ({setCollectionModel,collectionInput,setCollectionInput
           
           if(res?.success){
             setCollectionModel(false)
-            toast.success(res.message);
-            
+            toast.success(res.message); 
           }
         } catch (error) {
-          console.log(error);
-          
+         toast.error(error.message); 
         }
   
   }

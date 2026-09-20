@@ -30,6 +30,7 @@ import CustomInput from "../ui/CustomInput";
 import RecipeRate from "./RecipeRate";
 import Review from "./Review";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -46,7 +47,7 @@ const RecipeDetail = () => {
             
         
       } catch (error) {
-        console.log(error);
+       toast.error(error.message);
         
       }
     }

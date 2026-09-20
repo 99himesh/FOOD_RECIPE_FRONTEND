@@ -111,7 +111,6 @@ export const notificationSlice = createSlice({
     });
     builder.addCase(notificationCountHandlerAsync.fulfilled, (state, action) => {
       state.isLoading = false; 
-      console.log(action.payload.notificationCount);
       
       state.notificationCount=action.payload.notificationCount;
 

@@ -13,14 +13,12 @@ const initialState = {
 
 export const getAllRecipeHandlerAsync = createAsyncThunk(
   "recipe/getAllRecipe",
-  async ({data,token}) => {
-    console.log(token);
-    
+  async ({data,token}) => {    
     try {
       const res = await api.get("recipe/getAllrecipe",{
         headers: {
           "Content-Type": "application/json",
-          "Authorization":`Bearor ${token}`
+          "Authorization":`Bearer ${token}`
         },
         params:{
             ...data
@@ -39,7 +37,7 @@ export const getRecipeByUserIdHandlerAsync = createAsyncThunk(
       const res = await api.get(`recipe/getRecipeByUserId/${id}`,{
         headers: {
           "Content-Type": "application/json",
-          "Authorization":`Bearor ${token}`
+          "Authorization":`Bearer ${token}`
         },
         params:{
             ...data
@@ -59,7 +57,7 @@ export const getRecipeByIdHandlerAsync = createAsyncThunk(
       const res = await api.get(`recipe/getRecipe/${id}`,{
         headers: {
           "Content-Type": "application/json",
-          "Authorization":`Bearor ${token}`
+          "Authorization":`Bearer ${token}`
         }
     
       });      
@@ -77,14 +75,12 @@ export const createRecipeHandlerAsync = createAsyncThunk(
       const res = await api.post(`recipe/add`,data,{
         headers: {
           "Content-Type": "application/json",
-          "Authorization":`Bearor ${token}`
+          "Authorization":`Bearer ${token}`
         }
     
       });      
       return res.data;
     } catch (error) {
-      console.log(error);
-      
       throw error;
     }
   }
@@ -98,7 +94,7 @@ export const updateRecipeHandlerAsync = createAsyncThunk(
       const res = await api.put(`recipe/updateRecipe/${id}`,data,{
         headers: {
           "Content-Type": "application/json",
-          "Authorization":`Bearor ${token}`
+          "Authorization":`Bearer ${token}`
         }
     
       });      
@@ -116,7 +112,7 @@ export const deleteRecipeHandlerAsync = createAsyncThunk(
       const res = await api.delete(`recipe/deleteRecipe/${id}`,{
         headers: {
           "Content-Type": "application/json",
-          "Authorization":`Bearor ${token}`
+          "Authorization":`Bearer ${token}`
         }
     
       });      
@@ -150,9 +146,7 @@ export const recipeSlice = createSlice({
       state.recipes=[]
     },
     favourateInAllRecipe:(state,action)=>{
-      const findIndex=state.recipes?.recipe?.findIndex(item=>item.id==action.payload);
-      console.log(state.recipes.recipe);
-      
+      const findIndex=state.recipes?.recipe?.findIndex(item=>item.id==action.payload);      
       state.recipes.recipe[findIndex].isFavourate=!state.recipes.recipe[findIndex].isFavourate;
     },
     favourateInRecipeByUser:(state,action)=>{
@@ -181,9 +175,7 @@ export const recipeSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getRecipeByUserIdHandlerAsync.fulfilled, (state, action) => {
-      state.isLoading = false;  
-      console.log(action.payload,"kgjhfjf");
-          
+      state.isLoading = false;            
       state.recipesByUser=action.payload.recipe;  
     });
     builder.addCase(getRecipeByUserIdHandlerAsync.rejected, (state, action) => {

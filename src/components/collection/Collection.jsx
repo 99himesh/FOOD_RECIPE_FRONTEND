@@ -39,14 +39,12 @@ const Collection = () => {
   const dispatch=useDispatch();
   const {collection}=useSelector(state=>state.collection);
   const {recipe}=useSelector(state=>state.recipe);
-  console.log(recipe);
-  
   const getCollectionHandler=async()=>{
       const data={}
       try {
         const res=await dispatch(getCollectionAsync({token})).unwrap(); 
       } catch (error) {
-        console.log(error);
+        toast.error(error.message);
       }
     }
 

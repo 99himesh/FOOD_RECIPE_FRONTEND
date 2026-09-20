@@ -28,16 +28,12 @@ const AuthorCard = ({ author }) => {
     try {
       const data={followingId:author?.id}
       const res=await dispatch(followUserHandlerAsync({data,token})).unwrap();
-      console.log(res);
       if(res?.success){
         toast.success(res.message);
         dispatch(followUserHandler(author?.id))
-      }
-      
-
-      
+      } 
     } catch (error) {
-      
+     toast.error(error.message); 
     }
   }
 
@@ -45,16 +41,12 @@ const AuthorCard = ({ author }) => {
    const unFollowHandler=async()=>{
     try {
       const res=await dispatch(UnfollowUserHandlerAsync({id:author?.id,token})).unwrap();
-      console.log(res);
       if(res?.success){
         toast.success(res.message);
         dispatch(unFollowUserHandler(author?.id))
       }
-      
-
-      
     } catch (error) {
-      
+      toast.error(error.message);
     }
   }
 

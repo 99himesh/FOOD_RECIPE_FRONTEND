@@ -37,20 +37,12 @@ const CollectionRecipes = () => {
   const {recipeCollection}=useSelector(state=>state.collection)
   const {recipes}=useSelector(state=>state.recipe);
   const token=Cookies.get("token")
-  console.log(recipes,"recipe");
-  
-console.log(recipeCollection.recipeByCollection);
-
-
-
    const getRecipeCollectionHandler=async()=>{
         const data={CollectionId:id}
         try {
           const res=await dispatch(getrecipeByCollectionIdAsync({data,token})).unwrap();
-          console.log(res); 
         } catch (error) {
-          console.log(error);
-          
+         toast.error(error.message); 
         }
       }
   
@@ -62,13 +54,11 @@ console.log(recipeCollection.recipeByCollection);
       try {
         const res=await dispatch(getAllRecipeHandlerAsync({data,token})).unwrap();
       } catch (error) {
-        console.log(error);
-        
+       toast.error(error.message); 
       }
     }
   
     const addToCollectionHandler=async(id)=>{
-      console.log(id);
       const data={CollectionId:recipeCollection?.collection?.id,RecipeId:id}
        try {
         const res=await dispatch(addToCollectionAsync({data,token})).unwrap();
@@ -78,9 +68,7 @@ console.log(recipeCollection.recipeByCollection);
           getRecipeCollectionHandler()
         }
       } catch (error) {
-        console.log(error);
-         toast.error(error.message)
-        
+        toast.error(error.message);
       }
       
     }
@@ -184,7 +172,7 @@ console.log(recipeCollection.recipeByCollection);
         </Row>
 
         {/* Recipes */}
-         {recipeCollection?.recipeByCollection.length==0 && <Empty/>}
+         {recipeCollection?.recipeByCollection?.length==0 && <Empty/>}
         <Row gutter={[24, 24]}>
           {recipeCollection?.recipeByCollection?.map((item) => (
             <Col

@@ -38,7 +38,7 @@ const AdminUsers = () => {
       }
       
     } catch (error) {
-       console.log(error);
+      toast.error(error.message);
        
     }
   }
@@ -54,26 +54,20 @@ const AdminUsers = () => {
       
       
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
       
     }
   }
    const blockHandler=async(cheched,id)=>{
-    console.log(cheched,"gdf");
-    
     const data={isBlock:cheched}
      try {
       const res=await dispatch(updateUserHAndlerAsync({id,data,token})).unwrap();
-      console.log(res);
       if(res.success){
         toast.success(res.message);
         dispatch(blockedHandler({id:id,isBlock:cheched}))
-      }
-      
-      
+      } 
      } catch (error) {
-      console.log(error);
-      
+      toast.error(error.message); 
      }
       
      }
@@ -186,12 +180,8 @@ const AdminUsers = () => {
     try {
       const data={search,limit:10,page:page}
       const res=await  dispatch(getAuthorHandlerAsync({data,token})).unwrap();
-      console.log(res);
-      
-      
     } catch (error) {
-      console.log(error);
-      
+      toast.error(error.message);
     }
   }
 

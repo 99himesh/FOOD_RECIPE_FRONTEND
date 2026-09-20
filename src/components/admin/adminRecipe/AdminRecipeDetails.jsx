@@ -37,7 +37,7 @@ const AdminRecipeDetails = () => {
     try {
       const res = await dispatch(getRecipeByIdHandlerAsync({ id, token })).unwrap();
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   }
 
@@ -59,7 +59,6 @@ const AdminRecipeDetails = () => {
                 width="100%"
               />
             </Col>
-
             {/* Right */}
             <Col xs={24} lg={12}>
               <Space direction="vertical" size="large" className="w-full">

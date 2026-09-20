@@ -4,6 +4,7 @@ import LatestRecipes from "./LatestRecipe";
 import Testimonials from "./Testimonial";
 import { useEffect } from "react";
 import { getHomeHandlerAsync } from "../../feature/homeSlice";
+import toast from "react-hot-toast";
 
 const Home=()=>{
     const dispatch=useDispatch();
@@ -13,12 +14,8 @@ const Home=()=>{
      const getHomeAsync=async()=>{
             try {
               const res=await dispatch(getHomeHandlerAsync({})).unwrap();
-                  
-              console.log(res);
-              
             } catch (error) {
-              console.log(error);
-              
+             toast.error(error.message);
             }
           }
         

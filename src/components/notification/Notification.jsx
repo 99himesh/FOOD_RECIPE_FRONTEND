@@ -18,8 +18,8 @@ import { useMemo } from "react";
 import { io } from "socket.io-client";
 const { Text } = Typography;
 import Cookies from "js-cookie"
-import {useDispatch, useSelector} from "react-redux";
-import {toast} from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 import { addToNotification, deleteAllNotificationHandlerAsync, deleteNotification, deleteNotificationHandlerAsync, notificationHandlerAsync } from "../../feature/notificationSlice";
 const notifications = [
   {
@@ -48,81 +48,75 @@ const notifications = [
   },
 ];
 
-const Notification = () => { 
-  const dispatch=useDispatch()
-  const {notification}=useSelector(state=>state.notification);
-  const token=Cookies.get("token"); 
-  
-    
-    const socket = useMemo(() => io("http://localhost:3000", {
-        auth:{
-            token
-        }
-      }), [])
-     
-   useEffect(() => {
-  socket.on("connection", () => {
-    console.log("Connected", socket.id);
-  });
+const Notification = () => {
+  const dispatch = useDispatch()
+  const { notification } = useSelector(state => state.notification);
+  const token = Cookies.get("token");
 
-  socket.on("connect_error", (err) => {
-    console.log(err.message);
-  });
 
-  socket.on("new-notification", (data) => {
-    dispatch(addToNotification(data));
-  });
+  const socket = useMemo(() => io("http://localhost:3000", {
+    auth: {
+      token
+    }
+  }), [])
 
-  return () => {
-    socket.disconnect();
-  };
-}, [socket]);
+  useEffect(() => {
+    socket.on("connection", () => {
+      console.log("Connected", socket.id);
+    });
 
-  const getNotificationHandler=async()=>{
-        try {
-          const res=await dispatch(notificationHandlerAsync({token})).unwrap();
-              
-          
-        } catch (error) {
-          console.log(error);
-          
-        }
-      }
-    
-    const deleteNotificationHandler=async(id)=>{
-      console.log(id);
-      
-      try {
-        const res=await dispatch(deleteNotificationHandlerAsync({id:id,token})).unwrap();
-        if(res.success){
-          dispatch(deleteNotification(id))
+    socket.on("connect_error", (err) => {
+      console.log(err.message);
+    });
+
+    socket.on("new-notification", (data) => {
+      dispatch(addToNotification(data));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
+
+  const getNotificationHandler = async () => {
+    try {
+      const res = await dispatch(notificationHandlerAsync({ token })).unwrap();
+
+
+    } catch (error) {
+      toast.error(error.message);
+
+    }
+  }
+
+  const deleteNotificationHandler = async (id) => {
+    try {
+      const res = await dispatch(deleteNotificationHandlerAsync({ id: id, token })).unwrap();
+      if (res.success) {
+        dispatch(deleteNotification(id))
         toast.success(res.message);
 
-        }
-        
-      } catch (error) {
-        console.log(error);
-        
       }
-    }
-    const deleteAllNotificationHandler=async()=>{
-      
-      try {
-        const res=await dispatch(deleteAllNotificationHandlerAsync({token})).unwrap();
-        if(res.success){
-          toast.success(res.message);
 
-        }
-        
-      } catch (error) {
-        console.log(error);
-        
-      }
+    } catch (error) {
+      toast.error(error.message);
     }
-    
-      useEffect(()=>{
-        getNotificationHandler();
-      },[])
+  }
+  const deleteAllNotificationHandler = async () => {
+    try {
+      const res = await dispatch(deleteAllNotificationHandlerAsync({ token })).unwrap();
+      if (res.success) {
+        toast.success(res.message);
+      }
+    } catch (error) {
+     toast.error(error.message);
+
+    }
+  }
+
+  useEffect(() => {
+    getNotificationHandler();
+  }, [])
 
 
 
@@ -148,9 +142,9 @@ const Notification = () => {
           renderItem={(item) => (
             <List.Item
               actions={[
-                
+
                 <Button
-                onClick={()=>{deleteNotificationHandler(item.id)}}
+                  onClick={() => { deleteNotificationHandler(item.id) }}
                   key="delete"
                   icon={<DeleteOutlined />}
                   danger

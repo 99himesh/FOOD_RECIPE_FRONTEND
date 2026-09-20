@@ -19,6 +19,7 @@ import { getRecipeByUserIdHandlerAsync } from "../../feature/recipeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import CustomPagination from "../ui/CustomPagination";
+import toast from "react-hot-toast";
 const { Title, Paragraph } = Typography;
 const ManageYourRecipe = () => {
   const[page,setPage]=useState(1);
@@ -38,7 +39,7 @@ const ManageYourRecipe = () => {
           
       
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
       
     }
   }

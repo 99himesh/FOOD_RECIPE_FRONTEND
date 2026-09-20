@@ -35,7 +35,7 @@ const AdminRecipe = () => {
         setConfirm(false);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
       
     }
     
@@ -139,13 +139,9 @@ const AdminRecipe = () => {
   const getAllRecipeHandler=async()=>{
     try {
       const data={page:page,limit:10,search}
-      const res=await  dispatch(getAllRecipeHandlerAsync({data,token})).unwrap();
-      console.log(res);
-      
-      
+      const res=await  dispatch(getAllRecipeHandlerAsync({data,token})).unwrap();      
     } catch (error) {
-      console.log(error);
-      
+      toast.error(error.message); 
     }
   }
 

@@ -42,7 +42,7 @@ const RecipeCard=({recipe,manageRecipe,collection,recipePage})=>{
             setConfirm(false)
           }
      } catch (error) {
-       console.log(error);
+       toast.error(error.message);
      }
   }
 
@@ -89,7 +89,7 @@ const RecipeCard=({recipe,manageRecipe,collection,recipePage})=>{
       }
       
     } catch (error) {
-      console.log(error);
+     toast.error(error.message);
       
     }
   }

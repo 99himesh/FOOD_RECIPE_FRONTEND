@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { notificationCountHandlerAsync } from "../feature/notificationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 const Layout=()=>{
     const token=Cookies.get("token");
 
@@ -13,12 +14,9 @@ const Layout=()=>{
     
      const getNotificationCountHandler=async()=>{
             try {
-              const res=await dispatch(notificationCountHandlerAsync({token})).unwrap();
-                  
-              console.log(res);
-              
+              const res=await dispatch(notificationCountHandlerAsync({token})).unwrap();  
             } catch (error) {
-              console.log(error);
+              toast.error(error.message);
               
             }
           }

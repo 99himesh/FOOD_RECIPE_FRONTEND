@@ -59,16 +59,12 @@ const CreateRecipe = ({isEdit}) => {
         const form={file:e.file}
         try {
             const res=await dispatch(uploadMediaHandlerAsync({formData,token})).unwrap();
-            console.log(res);
             if(res.success){
                 toast.success(res.message);
                 setRecipeInput({...recipeInput,image:res?.url})
-
             }
-            
-            
         } catch (error) {
-            
+            toast.error(error.message);
         }
         
     }
@@ -98,7 +94,7 @@ const CreateRecipe = ({isEdit}) => {
             
             
         } catch (error) {
-            console.log(error);
+         toast.error(error.message);
             
         }
         

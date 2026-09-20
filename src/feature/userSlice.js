@@ -40,7 +40,6 @@ export const loginHandlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error,"dfvdhsfkjsdkb");
       throw error;
     }
   }
@@ -62,7 +61,6 @@ export const getAuthorHandlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error,"dfvdhsfkjsdkb");
       throw error;
     }
   }
@@ -82,7 +80,6 @@ export const followUserHandlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error,"dfvdhsfkjsdkb");
       throw error;
     }
   }
@@ -99,7 +96,6 @@ export const UnfollowUserHandlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error,"dfvdhsfkjsdkb");
       throw error;
     }
   }
@@ -119,7 +115,6 @@ export const getAuthorByIdHandlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error,"dfvdhsfkjsdkb");
       throw error;
     }
   }
@@ -137,7 +132,6 @@ export const updateUserHAndlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error,"dfvdhsfkjsdkb");
       throw error;
     }
   }
@@ -155,7 +149,6 @@ export const deleteUserHandlerAsync = createAsyncThunk(
       });      
       return res.data;
     } catch (error) {
-      console.log(error,"dfvdhsfkjsdkb");
       throw error;
     }
   }
@@ -177,7 +170,6 @@ export const userSlice = createSlice({
      state.authors.result[findIndex].isFollow=false
     },
     updateUserHandler:(state,action)=>{
-       console.log(action.payload);
        const index=state.authors.findIndex(item=>item?.id==action.payload?.id)
        state.authors[index].role=action.payload?.role
     },

@@ -24,33 +24,30 @@ const { Title, Paragraph } = Typography;
 
 const Authors = () => {
   const [search, setSearch] = useState("");
-  const [page,setPage]=useState();
-  const dispatch=useDispatch();
-  const {authors}=useSelector(state=>state.user) 
-  const token=Cookies.get("token");
+  const [page, setPage] = useState();
+  const dispatch = useDispatch();
+  const { authors } = useSelector(state => state.user)
+  const token = Cookies.get("token");
 
-  
 
-  const getRecipeHandler=async()=>{
-      const data = {
-        page: page,
-        limit: 12,
-        ...(search && { search: search })
-        };
-      try {
-        const res=await dispatch(getAuthorHandlerAsync({data,token})).unwrap();
-            
-        
-      } catch (error) {
-        console.log(error);
-        
-      }
+
+  const getRecipeHandler = async () => {
+    const data = {
+      page: page,
+      limit: 12,
+      ...(search && { search: search })
+    };
+    try {
+      const res = await dispatch(getAuthorHandlerAsync({ data, token })).unwrap();
+    } catch (error) {
+      toast.error(error.message);
     }
-  
-  
-    useEffect(()=>{
-      getRecipeHandler();
-    },[page,search])
+  }
+
+
+  useEffect(() => {
+    getRecipeHandler();
+  }, [page, search])
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -78,34 +75,34 @@ const Authors = () => {
 
       {/* Search & Filter */}
       <section className="container mx-auto px-6 py-10">
-<section className="container mx-auto px-6 py-8">
-        <div className="bg-white rounded-2xl shadow-sm p-6">
+        <section className="container mx-auto px-6 py-8">
+          <div className="bg-white rounded-2xl shadow-sm p-6">
 
-          <Row gutter={[16, 16]} align="middle">
+            <Row gutter={[16, 16]} align="middle">
 
-            <Col xs={24} sm={24} md={12} lg={8} xl={12} xxl={12}>
-              <Input
-                size="large"
-                placeholder="Search authors..."
-                prefix={<SearchOutlined />}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </Col>
+              <Col xs={24} sm={24} md={12} lg={8} xl={12} xxl={12}>
+                <Input
+                  size="large"
+                  placeholder="Search authors..."
+                  prefix={<SearchOutlined />}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </Col>
 
-            
 
-           
 
-           
 
-          
 
-          </Row>
 
-        </div>
-      </section>
-       
+
+
+
+            </Row>
+
+          </div>
+        </section>
+
 
         {/* Authors */}
         <Row gutter={[24, 24]}>
@@ -119,7 +116,7 @@ const Authors = () => {
                 xl={6}
                 key={author?.id}
               >
-                <AuthorCard  author={author} />
+                <AuthorCard author={author} />
               </Col>
             ))
           ) : (
@@ -129,12 +126,12 @@ const Authors = () => {
           )}
 
         </Row>
-          <div className="flex justify-center">
-            <CustomPagination pageNumber={page} onchange={(e)=>{setPage(e)}}  total={authors?.count} />
-          </div>
+        <div className="flex justify-center">
+          <CustomPagination pageNumber={page} onchange={(e) => { setPage(e) }} total={authors?.count} />
+        </div>
 
 
-       
+
 
       </section>
 
