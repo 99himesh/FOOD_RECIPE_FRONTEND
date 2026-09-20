@@ -43,8 +43,6 @@ const AuthorRecipes = () => {
          toast.error(error.message);
         }
       }
-    
-    
       useEffect(()=>{
         getRecipeByUserIdHandler();
       },[page,search])
@@ -160,7 +158,7 @@ const AuthorRecipes = () => {
 
       </div>
        <div className="pb-5">
-          <CustomPagination onchange={(e)=>{setPage(e)}}  pageNumber={page} total={recipesByUser?.recipeCount}/>
+          <CustomPagination pageSize={12} onchange={(e)=>{setPage(e)}}  pageNumber={page} total={recipesByUser?.recipeCount}/>
         </div>
     </div>
   );

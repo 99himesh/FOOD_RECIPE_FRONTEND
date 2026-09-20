@@ -6,29 +6,29 @@ import { useEffect } from "react";
 import { getHomeHandlerAsync } from "../../feature/homeSlice";
 import toast from "react-hot-toast";
 
-const Home=()=>{
-    const dispatch=useDispatch();
-    const {home}=useSelector(state=>state.home);
-    
-    
-     const getHomeAsync=async()=>{
-            try {
-              const res=await dispatch(getHomeHandlerAsync({})).unwrap();
-            } catch (error) {
-             toast.error(error.message);
-            }
-          }
-        
-        
-          useEffect(()=>{
-            getHomeAsync();
-          },[]) 
-    return(
-        <>
-        <HeroBanner home={home} />
-        <LatestRecipes recipe={home.recipe}/>
-        <Testimonials/>
-        </>
-    )
+const Home = () => {
+  const dispatch = useDispatch();
+  const { home } = useSelector(state => state.home);
+
+
+  const getHomeAsync = async () => {
+    try {
+      const res = await dispatch(getHomeHandlerAsync({})).unwrap();
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
+
+  useEffect(() => {
+    getHomeAsync();
+  }, [])
+  return (
+    <>
+      <HeroBanner home={home} />
+      <LatestRecipes recipe={home.recipe} />
+      <Testimonials />
+    </>
+  )
 }
 export default Home;

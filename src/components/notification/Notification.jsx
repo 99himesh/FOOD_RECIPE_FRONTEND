@@ -13,7 +13,7 @@ import {
   DeleteOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMemo } from "react";
 import { io } from "socket.io-client";
 const { Text } = Typography;
@@ -21,36 +21,15 @@ import Cookies from "js-cookie"
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { addToNotification, deleteAllNotificationHandlerAsync, deleteNotification, deleteNotificationHandlerAsync, notificationHandlerAsync } from "../../feature/notificationSlice";
-const notifications = [
-  {
-    id: 1,
-    title: "New Recipe",
-    message: "Himesh published a new recipe 'Chicken Biryani'.",
-    time: "2 mins ago",
-    isRead: false,
-    avatar: "",
-  },
-  {
-    id: 2,
-    title: "New Follower",
-    message: "Rahul Sharma started following you.",
-    time: "10 mins ago",
-    isRead: true,
-    avatar: "",
-  },
-  {
-    id: 3,
-    title: "Recipe Liked",
-    message: "Priya liked your recipe 'Veg Pizza'.",
-    time: "1 hour ago",
-    isRead: false,
-    avatar: "",
-  },
-];
+import CustomPagination from "../ui/CustomPagination";
+
 
 const Notification = () => {
   const dispatch = useDispatch()
   const { notification } = useSelector(state => state.notification);
+  console.log(notification,"notification");
+  
+  const [page,setPage]=useState(1)
   const token = Cookies.get("token");
 
 
@@ -79,8 +58,9 @@ const Notification = () => {
   }, [socket]);
 
   const getNotificationHandler = async () => {
+    const data={page:page,limit:9}
     try {
-      const res = await dispatch(notificationHandlerAsync({ token })).unwrap();
+      const res = await dispatch(notificationHandlerAsync({ token ,data})).unwrap();
 
 
     } catch (error) {
@@ -116,7 +96,7 @@ const Notification = () => {
 
   useEffect(() => {
     getNotificationHandler();
-  }, [])
+  }, [page])
 
 
 
@@ -138,9 +118,13 @@ const Notification = () => {
       <Card className="shadow-md rounded-xl">
         <List
           itemLayout="horizontal"
-          dataSource={notification}
-          renderItem={(item) => (
-            <List.Item
+          dataSource={notification.notification}
+          renderItem={(item) => {
+            console.log(item,"fgsd")
+
+            return(
+              <>
+                  <List.Item
               actions={[
 
                 <Button
@@ -182,9 +166,17 @@ const Notification = () => {
                 }
               />
             </List.Item>
-          )}
+</>
+            )
+          }
+        }   
+        
+          
         />
       </Card>
+        <div className="flex justify-center">
+            <CustomPagination pageSize={9} pageNumber={page} onchange={(e)=>{setPage(e)}}  total={notification?.count} />
+          </div>
     </div>
   );
 };

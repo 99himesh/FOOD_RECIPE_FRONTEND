@@ -291,15 +291,6 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.error = action.error.message;
     });
-    
-    
-    
-    
-        
-    
-   
-   
-   
   },
 });
 

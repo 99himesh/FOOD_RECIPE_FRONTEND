@@ -60,7 +60,7 @@ const Header =()=>{
                <div className="order-2 flex gap-5 items-center">
                <div className="hidden sm:block md:order-3 order-2 !text-[#fff] cursor-pointer">
                 <Popover trigger="click" placement="bottomRight"  content={<ProfileDropDown/>}>
-                     <Avatar/>
+                     <Avatar />
                 </Popover>
                </div>
                <div className="cursor-pointer" onClick={()=>{navigate("/notification")}}>
@@ -86,22 +86,20 @@ const Header =()=>{
                     <h2 className="text-xl font-semibold mb-4 ">Menu</h2>
                     <nav className="flex flex-col space-y-4 *:text-gray-600 *:hover:text-black">
                          
-                           <Link   to={"/"}>
+                           <Link   to={"/recipe"}>
                         Recipe
                     </Link>
-                    <Link  >
+                    <Link to={"/authors"} >
                         Author
                     </Link>
-                    <Link  >
+                    <Link to={"/favourate"} >
                         Favourate
                     </Link>
                     
-                    <Link  >
+                    <Link to={"/collection"} >
                         Collection
                     </Link>
-                    <Link  >
-                        Profile
-                    </Link>
+                    
                     </nav>
                 </div>
             </div>

@@ -141,7 +141,7 @@ const Recipe = () => {
           
         </Row>
         <div className="flex justify-center">
-            <CustomPagination pageNumber={page} onchange={(e)=>{setPage(e)}}  total={recipes?.count} />
+            <CustomPagination pageSize={12} pageNumber={page} onchange={(e)=>{setPage(e)}}  total={recipes?.count} />
           </div>
 
       </section>

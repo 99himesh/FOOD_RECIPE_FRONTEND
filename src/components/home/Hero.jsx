@@ -10,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 const { Title, Paragraph, Text } = Typography;
 
 const HeroBanner = ({home}) => {
-  console.log(home);
-  
   const navigate=useNavigate();
   return (
       <div className="container mx-auto max-sm:px-5 py-16 lg:py-24">

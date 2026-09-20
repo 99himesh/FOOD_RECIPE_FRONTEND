@@ -16,7 +16,6 @@ const ProfileDropDown = ({ user }) => {
     const logoutUserHandler=()=>{
       dispatch(logoutHandler())
       toast.success("Logout successfully")
-      
       navigate("/login")
     }
 

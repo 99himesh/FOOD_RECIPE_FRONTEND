@@ -20,23 +20,16 @@ const CollectionCard = ({ collection,setCollectionModel ,editCollectionData}) =>
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const token=Cookies.get("token");
-
-  console.log(collection,"coll");
-  
   const collectionDeleteHandler=async()=>{
    try {
      const res=await dispatch(removeFromCollectionAsync({id:collection.id,token})).unwrap();
-     console.log(res);
      if(res.success){
       setCollectionConfirm(false)
       toast.success(res.message);
       dispatch(deleteCollectionHandler(collection.id))
      }
-     
-    
    } catch (error) {
-    console.log(error);
-    
+   toast.error(error.message);
    }
     
   }

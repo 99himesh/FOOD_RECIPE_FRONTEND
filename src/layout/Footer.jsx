@@ -38,10 +38,6 @@ const Footer = () => {
             </Title>
 
             <div className="flex flex-col gap-3 mt-6">
-              <Link href="/" className="!text-gray-400 hover:!text-[#E63946]">
-                Home
-              </Link>
-
               <Link href="/recipe" className="!text-gray-400 hover:!text-[#E63946]">
                 Recipes
               </Link>

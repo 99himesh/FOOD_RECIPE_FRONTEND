@@ -212,7 +212,7 @@ const AdminUsers = () => {
         scroll={{y:700}}
       />
       <div className="flex justify-center">
-            <CustomPagination pageNumber={page} onchange={(e)=>{setPage(e)}}  total={authors?.count} />
+            <CustomPagination pageSize={10} pageNumber={page} onchange={(e)=>{setPage(e)}}  total={authors?.count} />
           </div>
            <CustomModal  setOpen={setConfirm} open={confirm} modalBody={<ConfirMationToDelete setConfirm={setConfirm} confirm={confirm}  deleteHandler={deleteHandler}  />}/>
 </>

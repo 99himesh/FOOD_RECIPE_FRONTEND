@@ -12,11 +12,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 
 const TestimonialCard=({item})=>{
-  console.log(item);
-  
     return(
         <>
-        
         <Card
                 hoverable
                 className="rounded-3xl border-0 shadow-md hover:shadow-2xl transition-all duration-300 h-full "

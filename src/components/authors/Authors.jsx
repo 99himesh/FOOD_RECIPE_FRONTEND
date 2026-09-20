@@ -89,15 +89,6 @@ const Authors = () => {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </Col>
-
-
-
-
-
-
-
-
-
             </Row>
 
           </div>
@@ -127,7 +118,7 @@ const Authors = () => {
 
         </Row>
         <div className="flex justify-center">
-          <CustomPagination pageNumber={page} onchange={(e) => { setPage(e) }} total={authors?.count} />
+          <CustomPagination pageSize={12} pageNumber={page} onchange={(e) => { setPage(e) }} total={authors?.count} />
         </div>
 
 

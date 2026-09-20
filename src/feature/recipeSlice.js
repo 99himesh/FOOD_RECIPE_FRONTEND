@@ -163,7 +163,6 @@ export const recipeSlice = createSlice({
     });
     builder.addCase(getAllRecipeHandlerAsync.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload,"dfg");
       
       state.recipes=action.payload.recipe  
     });

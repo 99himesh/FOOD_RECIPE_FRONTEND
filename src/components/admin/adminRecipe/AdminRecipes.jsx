@@ -91,6 +91,7 @@ const AdminRecipe = () => {
       title: "Diet Type",
       dataIndex: "dietType",
       key: "dietType",
+      width:150,
        render: (_,record) => (
            <CustomText value={`${record.dietType}`}/>
       ),
@@ -101,6 +102,7 @@ const AdminRecipe = () => {
       dataIndex: "updatedAt",
       key: "updatedAt",
       align:"center",
+      width:150,
       render: (record) => (
          <CustomText value={formatDate(record)}/>
       ),
@@ -138,7 +140,7 @@ const AdminRecipe = () => {
 
   const getAllRecipeHandler=async()=>{
     try {
-      const data={page:page,limit:10,search}
+      const data={page:page,limit:8,search}
       const res=await  dispatch(getAllRecipeHandlerAsync({data,token})).unwrap();      
     } catch (error) {
       toast.error(error.message); 
@@ -151,7 +153,7 @@ const AdminRecipe = () => {
   },[page,search])
   
   return (
-    <div className="p-6 bg-white rounded-xl shadow-sm">
+    <div >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <CustomText
@@ -173,9 +175,10 @@ const AdminRecipe = () => {
         columns={columns}
         dataSource={recipes?.recipe ?? []}
         pagination={{ pageSize: 10 }}
+        scroll={{x:1500}}
       />
         <div className="flex justify-center">
-            <CustomPagination pageNumber={page} onchange={(e)=>{setPage(e)}}  total={recipes?.count} />
+            <CustomPagination pageSize={8} pageNumber={page} onchange={(e)=>{setPage(e)}}  total={recipes?.count} />
           </div>
 
            <CustomModal  setOpen={setConfirm} open={confirm} modalBody={<ConfirMationToDelete setConfirm={setConfirm} confirm={confirm}  deleteHandler={adminRecipeDeleteHandler}  />}/>

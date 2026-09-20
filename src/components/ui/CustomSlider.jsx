@@ -78,8 +78,6 @@ if(isDashboardLoading) return <Skeleton.Node active={true} style={{width:"1200px
         onSwiper={setSwiperInstance} // 👈 capture swiper instance
       >
        {EventSalesSlider?.map((item,idx)=>{
-        console.log(item);
-        
         return(
             <SwiperSlide>
           <div className=" flex justify-between items-center px-20 relative">

@@ -29,12 +29,12 @@ const SignUp = () => {
    try {
     const data={...signUpInput}
     const res=await dispatch(signUpHandlerAsync({data})).unwrap();
-    console.log(res,"res");
     if(res.success){
       toast.success(res.message)
       navigate("/login")
     }
    } catch (error) {
+    console.log(error)
     toast.error(error.message)
     
    }

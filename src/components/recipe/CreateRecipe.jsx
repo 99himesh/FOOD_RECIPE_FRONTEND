@@ -9,11 +9,13 @@ import {
     Upload,
     Divider,
     Image,
+    Popover,
 } from "antd";
 import {
     PlusOutlined,
     UploadOutlined,
     DeleteOutlined,
+    ToTopOutlined,
 } from "@ant-design/icons";
 import CustomInput from "../ui/CustomInput";
 import TextArea from "antd/es/input/TextArea";
@@ -24,13 +26,17 @@ import { useEffect, useState } from "react";
 import CustomSelect from "../ui/CustomSelect";
 import {  createRecipeHandlerAsync, updateRecipeHandlerAsync } from "../../feature/recipeSlice";
 import {useLocation, useNavigate} from "react-router-dom"
+import { LuRefreshCcw } from "react-icons/lu";
 const { Title } = Typography;
 import Cookies from "js-cookie";
+import { createFoodDetailWithAiAsync } from "../../feature/aiSlice";
+import Loader from "../loader/Loader";
 const CreateRecipe = ({isEdit}) => {
     const dispatch=useDispatch();
     const location = useLocation();
     const navigate=useNavigate()
     const token=Cookies.get("token");
+    const {isLoading}=useSelector(state=>state.foodAi)
     const [recipeInput,setRecipeInput]=useState({     
                 title: "",
                 description: "",
@@ -99,15 +105,24 @@ const CreateRecipe = ({isEdit}) => {
         }
         
     }
-
-
-
+  const generateDetailsWithAiHandler=async()=>{
+    if(!recipeInput.title) return toast.error("Please fill title first")
+    try {
+        const data={title:recipeInput.title}
+        const res=await dispatch(createFoodDetailWithAiAsync({data,token})).unwrap();
+        setRecipeInput(res.food);
+    } catch (error) {
+       toast.error(error.message);
+        
+    }
+  }
     useEffect(()=>{
         
         if (location?.state?.isEdit) {
             setRecipeInput(location.state.recipe);
         }
-    },[location.state])
+    },[location.state]);
+
     return (
         <div className="bg-gray-100 min-h-screen py-10 px-5">
 
@@ -124,8 +139,8 @@ const CreateRecipe = ({isEdit}) => {
                     </p>
 
                 </div>
-
-                <Form  layout="vertical" onFinish={()=>{recipiSubmitHandler()}}>
+  
+               {isLoading?<Loader/>:<Form  layout="vertical" onFinish={()=>{recipiSubmitHandler()}}>
 
                     <Row gutter={[30, 20]}>
 
@@ -144,6 +159,7 @@ const CreateRecipe = ({isEdit}) => {
                                     <Title level={5}>
                                             👨 Title
                                         </Title>
+                                        <div  className="flex gap-4">
                                          <CustomInput
                                         label="Recipe Title"
                                         name="title"
@@ -151,6 +167,10 @@ const CreateRecipe = ({isEdit}) => {
                                         value={recipeInput.title}
                                         placeholder={"Enter Recipe Title"}
                                     />
+                                    <Popover title={"Click to Generate Others Details with AI"}>
+                                    <Button onClick={()=>{generateDetailsWithAiHandler()}} className="!h-[40px]"><LuRefreshCcw style={{fontSize:"16px"}}/></Button>
+                                   </Popover>
+                                    </div>
                                   </div>
                                    
 
@@ -287,7 +307,7 @@ const CreateRecipe = ({isEdit}) => {
 
                     </Row>
 
-                </Form>
+                </Form>}
 
             </div>
 

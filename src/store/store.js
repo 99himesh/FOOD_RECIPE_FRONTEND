@@ -5,6 +5,7 @@ import favourateReducer from "../feature/favourateSlice.js"
 import collectionReducer from "../feature/collectionSlice.js"
 import notificationReducer from "../feature/notificationSlice.js"
 import homeReducer from "../feature/homeSlice.js"
+import createFoodReducer from "../feature/aiSlice.js"
 export const store = configureStore({
   reducer: {
    user:userReducer,
@@ -12,6 +13,7 @@ export const store = configureStore({
    favourate:favourateReducer,
    collection:collectionReducer,
    notification:notificationReducer,
-   home:homeReducer
+   home:homeReducer,
+   foodAi:createFoodReducer
   },
 })

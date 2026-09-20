@@ -115,7 +115,7 @@ const ManageYourRecipe = () => {
           </Empty>
         )}
         <div >
-          <CustomPagination onchange={(e)=>{setPage(e)}}  pageNumber={page} total={recipesByUser?.recipeCount}/>
+          <CustomPagination pageSize={12} onchange={(e)=>{setPage(e)}}  pageNumber={page} total={recipesByUser?.recipeCount}/>
         </div>
 
       </div>

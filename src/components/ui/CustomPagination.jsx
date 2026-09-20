@@ -1,6 +1,6 @@
 import { Button, Pagination } from "antd"
 import { LeftOutlined,RightOutlined } from '@ant-design/icons';
-const CustomPagination=({onchange,total,pageNumber})=>{  
+const CustomPagination=({onchange,total,pageNumber,pageSize})=>{  
     const itemRender = (_, type, originalElement) => {
   if (type === 'prev') {
     return <Button><LeftOutlined /> Previous</Button>;
@@ -13,8 +13,8 @@ const CustomPagination=({onchange,total,pageNumber})=>{
     
     return(
     <>
-      {total>12 &&  <div  className="flex justify-center items-center w-[90%] mx-auto pt-5">
-        <Pagination pageSize={12} showSizeChanger={false} onChange={onchange} defaultCurrent={pageNumber} total={total} itemRender={itemRender} />
+      {total>pageSize &&  <div  className="flex justify-center items-center w-[90%] mx-auto pt-5">
+        <Pagination pageSize={pageSize} showSizeChanger={false} onChange={onchange} defaultCurrent={pageNumber} total={total} itemRender={itemRender} />
         </div>}
         </>
     )

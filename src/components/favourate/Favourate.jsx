@@ -17,6 +17,7 @@ import RecipeCard from "../common/RecipeCard";
 import { getFavourateHandlerAsync } from "../../feature/favourateSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 const { Title, Paragraph } = Typography;
 
 
@@ -25,15 +26,13 @@ const Favourite = () => {
   const dispatch=useDispatch();
   const {favourate}=useSelector(state=>state.favourate);
   const token=Cookies.get("token");
-console.log(favourate);
+
 
     const getFavourateHandler=async()=>{
         try {
-          const res=await dispatch(getFavourateHandlerAsync({token})).unwrap();
-              
-          
+          const res=await dispatch(getFavourateHandlerAsync({token})).unwrap();  
         } catch (error) {
-          console.log(error);
+          console.log(error.message);
           
         }
       }
@@ -76,14 +75,9 @@ console.log(favourate);
         {favourate?.length ? (
           <Row gutter={[24, 24]}>
             {favourate?.map((recipe) => {
-              console.log("sfshbjh");
-              
               const recipeItem={...recipe.Recipe,isFavourate:true};
-              console.log(recipeItem,"recipeItem");
-              
                 return(
                 <>
-            
               <Col
                 xs={24}
                 sm={12}

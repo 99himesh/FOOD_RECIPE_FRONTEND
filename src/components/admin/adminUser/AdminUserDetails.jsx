@@ -32,7 +32,7 @@ const AdminUserDetails = ({ user }) => {
         try {
           const res=await  dispatch(getAuthorByIdHandlerAsync({id,token})).unwrap();
         } catch (error) {
-          console.log(error);
+          toast.error(error.message);
         }
       }
     

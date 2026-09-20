@@ -3,19 +3,22 @@ import api from "../axios/axios"
 const initialState = {
   isLoading:false,
   error:"",
-  notification:[],
+  notification:{},
   notificationCount:null
 };
 
 
 export const notificationHandlerAsync = createAsyncThunk(
   "notification/getNotificationAsync",
-  async ({token}) => {
+  async ({token,data}) => {
     try {
       const res = await api.get("notifications/getNotification",{
         headers: {
           "Content-Type": "application/json",
           "Authorization":`Bearer ${token}`
+        },
+        params:{
+          ...data
         }
       });      
       return res.data;
@@ -80,12 +83,12 @@ export const notificationSlice = createSlice({
   initialState,
   reducers: {
      addToNotification:(state,action)=>{
-        state.notification=[action.payload,...state.notification]
+        state.notification.notification=[action.payload,...state.notification.notification]
         state.notificationCount=state.notificationCount+1
      },
      deleteNotification:(state,action)=>{
-       const findIndex=state.notification.findIndex(item=>item.id==action.payload);
-       state.notification.splice(findIndex,1);
+       const findIndex=state.notification.notification.findIndex(item=>item.id==action.payload);
+       state.notification.notification.splice(findIndex,1);
        state.notificationCount=state.notificationCount-1
      }
 
@@ -99,7 +102,7 @@ export const notificationSlice = createSlice({
     });
     builder.addCase(notificationHandlerAsync.fulfilled, (state, action) => {
       state.isLoading = false; 
-      state.notification=action.payload?.result?.notification;
+      state.notification=action.payload?.result;
 
     });
     builder.addCase(notificationHandlerAsync.rejected, (state, action) => {
@@ -110,8 +113,7 @@ export const notificationSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(notificationCountHandlerAsync.fulfilled, (state, action) => {
-      state.isLoading = false; 
-      
+      state.isLoading = false;       
       state.notificationCount=action.payload.notificationCount;
 
     });

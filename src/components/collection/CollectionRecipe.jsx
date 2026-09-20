@@ -31,61 +31,58 @@ const { Title, Paragraph, Text } = Typography;
 
 
 const CollectionRecipes = () => {
-  const {id}=useParams();
-  const [search,setSearch]=useState("")
-  const dispatch=useDispatch();
-  const {recipeCollection}=useSelector(state=>state.collection)
-  const {recipes}=useSelector(state=>state.recipe);
-  const token=Cookies.get("token")
-   const getRecipeCollectionHandler=async()=>{
-        const data={CollectionId:id}
-        try {
-          const res=await dispatch(getrecipeByCollectionIdAsync({data,token})).unwrap();
-        } catch (error) {
-         toast.error(error.message); 
-        }
-      }
-  
-
-
-
-    const getRecipeHandler=async()=>{
-      const data={search:search}
-      try {
-        const res=await dispatch(getAllRecipeHandlerAsync({data,token})).unwrap();
-      } catch (error) {
-       toast.error(error.message); 
-      }
+  const { id } = useParams();
+  const [search, setSearch] = useState("")
+  const dispatch = useDispatch();
+  const { recipeCollection } = useSelector(state => state.collection)
+  const { recipes } = useSelector(state => state.recipe);
+  const token = Cookies.get("token")
+  const getRecipeCollectionHandler = async () => {
+    const data = { CollectionId: id }
+    try {
+      const res = await dispatch(getrecipeByCollectionIdAsync({ data, token })).unwrap();
+    } catch (error) {
+      toast.error(error.message);
     }
-  
-    const addToCollectionHandler=async(id)=>{
-      const data={CollectionId:recipeCollection?.collection?.id,RecipeId:id}
-       try {
-        const res=await dispatch(addToCollectionAsync({data,token})).unwrap();
-        if(res?.success){
-          toast.success(res.message);
-          dispatch(deleteAllRecipe())
-          getRecipeCollectionHandler()
-        }
-      } catch (error) {
-        toast.error(error.message);
-      }
-      
+  }
+
+
+
+
+  const getRecipeHandler = async () => {
+    const data = { search: search }
+    try {
+      const res = await dispatch(getAllRecipeHandlerAsync({ data, token })).unwrap();
+    } catch (error) {
+      toast.error(error.message);
     }
-  
-    useEffect(()=>{
-      if(search){
+  }
+
+  const addToCollectionHandler = async (id) => {
+    const data = { CollectionId: recipeCollection?.collection?.id, RecipeId: id }
+    try {
+      const res = await dispatch(addToCollectionAsync({ data, token })).unwrap();
+      if (res?.success) {
+        toast.success(res.message);
+        dispatch(deleteAllRecipe())
+        getRecipeCollectionHandler()
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+
+  }
+
+  useEffect(() => {
+    if (search) {
       getRecipeHandler();
+    }
 
-      }
-       
-    },[search])
-     
-    
-      useEffect(()=>{
-        getRecipeCollectionHandler();
-      },[id])
-  
+  }, [search])
+  useEffect(() => {
+    getRecipeCollectionHandler();
+  }, [id])
+
   return (
     <div className="bg-gray-50 min-h-screen relative">
 
@@ -105,23 +102,23 @@ const CollectionRecipes = () => {
         </div>
       </div>
       <div className="absolute top-10 right-10">
-            <Input
-            className="!w-[400px]"
-              onChange={(e)=>{setSearch(e.target.value)}}
-              value={search}
-              size="large"
-              placeholder="Search recipes..."
-              prefix={<SearchOutlined />}
-            />
-            <div className="!max-h-[300px] overflow-auto">
-            <div className="z-10  w-full flex flex-col gap-2 pt-2 ">
-                 {recipes?.recipe?.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition "
-                >
-                  {/* Image */}
-                  <div className="flex gap-5 items-center px-3 ">
+        <Input
+          className="!w-[400px]"
+          onChange={(e) => { setSearch(e.target.value) }}
+          value={search}
+          size="large"
+          placeholder="Search recipes..."
+          prefix={<SearchOutlined />}
+        />
+        <div className="!max-h-[300px] overflow-auto">
+          <div className="z-10  w-full flex flex-col gap-2 pt-2 ">
+            {recipes?.recipe?.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition max-w-[400px] "
+              >
+                {/* Image */}
+                <div className="flex gap-5 items-center px-3 ">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -136,21 +133,21 @@ const CollectionRecipes = () => {
                       {item.description}
                     </p>
 
-                    <Button onClick={()=>{addToCollectionHandler(item.id)}} className="mt-4 bg-[#E53935] text-white px-4 py-2 rounded-lg hover:bg-[#d32f2f]">
+                    <Button onClick={() => { addToCollectionHandler(item.id) }} className="mt-4 bg-[#E53935] text-white px-4 py-2 rounded-lg hover:bg-[#d32f2f]">
                       Add to Collection
                     </Button>
                   </div>
-                  </div>
                 </div>
-              ))}
-            </div>
-            </div>
-            </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       <div className="container mx-auto px-5 py-10">
 
         {/* Collection Info */}
 
-       
+
 
         {/* Search */}
 
@@ -167,12 +164,12 @@ const CollectionRecipes = () => {
             </Title>
           </Col>
 
-        
+
 
         </Row>
 
         {/* Recipes */}
-         {recipeCollection?.recipeByCollection?.length==0 && <Empty/>}
+        {recipeCollection?.recipeByCollection?.length == 0 && <Empty />}
         <Row gutter={[24, 24]}>
           {recipeCollection?.recipeByCollection?.map((item) => (
             <Col
@@ -182,7 +179,7 @@ const CollectionRecipes = () => {
               xl={6}
               key={item}
             >
-              <RecipeCard recipePage={"collection"} collection={recipeCollection?.collection?.id} recipe={item.Recipe}  />
+              <RecipeCard recipePage={"collection"} collection={recipeCollection?.collection?.id} recipe={item.Recipe} />
             </Col>
           ))}
 
